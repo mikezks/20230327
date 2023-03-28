@@ -1,3 +1,5 @@
+import { AppComponent } from './../../../checkin/src/app/app.component';
+import { loadRemoteModule } from '@angular-architects/module-federation';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { ConfigService } from '@flight-demo/shared/util-config';
@@ -22,6 +24,13 @@ export const APP_ROUTES: Routes = [
       config: () => inject(ConfigService).loaded$,
     },
     children: [
+      {
+        path: 'checkin',
+        loadComponent: () => loadRemoteModule<any>(
+          'checkin',
+          './Component'
+        ).then(esm => esm.AppComponent)
+      },
       {
         path: 'flight-booking',
         loadChildren: () =>
